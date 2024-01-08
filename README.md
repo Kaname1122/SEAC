@@ -11,6 +11,7 @@ python train.py
 実験環境やハイパーパラメータは`train.py`を直接書き換える
 
 環境
+python 3.7
 gym == 0.21
 
 gym0.21を入れるに伴って
