@@ -3,6 +3,9 @@
 
 wandbを使って実験データの整理を行う
 
-'''python: 実行方法
+実行方法
+```Python
 python train.py
-'''
+```
+
+実験環境やハイパーパラメータは`train.py`を直接書き換える
