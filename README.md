@@ -14,9 +14,9 @@ python train.py
 python 3.7  
 gym == 0.21  
 
-gym0.21を入れるに伴って
-setuptools==66
-importlib-metadata<5.0
+gym0.21を入れるに伴って  
+setuptools==66  
+importlib-metadata<5.0  
 をインストールする
 
 gymインストール後
