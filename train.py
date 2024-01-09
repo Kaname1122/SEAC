@@ -38,13 +38,13 @@ config = {
     ),
     "dummy_vecenv" : False,
 
-    "num_env_steps" : 5e7,  # 100e6
+    "num_env_steps" : 1e8,  # 先行研究は100e6
 
     "eval_dir" : "./results/video/{id}",
     "loss_dir" : "./results/loss/{id}",
     "save_dir" : "./results/trained_models/{id}",
 
-    "log_interval" : 100,
+    "log_interval" : 2000,  # 先行研究は2000
     "save_interval" : int(1e6),
     "eval_interval" : int(1e6),
     "episodes_per_eval" : 8,
@@ -52,7 +52,7 @@ config = {
 
 run = wandb.init(
     project="lab",
-    name="seac_foraging",
+    name="seac_foraging_1e8",
     config=config,
 )
 
@@ -193,7 +193,7 @@ def main(
     all_infos = deque(maxlen=10)
     environment_steps = 0
     for j in range(1, num_updates + 1):
-        environment_steps += algorithm["num_steps"] * algorithm["num_envs"]
+        environment_steps += algorithm["num_steps"]
         for step in range(algorithm["num_steps"]):
             # Sample actions
             with torch.no_grad():
@@ -254,7 +254,7 @@ def main(
             squashed = _squash_info(all_infos)
 
             total_num_steps = (
-                (j + 1) * algorithm["num_envs"] * algorithm["num_steps"]
+                j * algorithm["num_envs"] * algorithm["num_steps"]
             )
             end = time.time()
             logging.info(
@@ -264,6 +264,7 @@ def main(
                 f"Last {len(all_infos)} training episodes mean reward {squashed['episode_reward'].sum():.3f}"
             )
             squashed["environment_steps"] = environment_steps
+            squashed["total_num_steps"] = total_num_steps
             wandb.log(squashed)
             all_infos.clear()
 
