@@ -16,7 +16,7 @@ gym == 0.21
 
 gym0.21を入れるに伴って  
 setuptools==66  
-importlib-metadata<5.0  
+importlib-metadata<5.0　(==4.13.0など)  
 をインストールする
 
 gymインストール後
