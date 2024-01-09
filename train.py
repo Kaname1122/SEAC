@@ -38,7 +38,7 @@ config = {
     ),
     "dummy_vecenv" : False,
 
-    "num_env_steps" : 1e8,  # 先行研究は100e6
+    "num_env_steps" : 5e7,  # 先行研究は100e6
 
     "eval_dir" : "./results/video/{id}",
     "loss_dir" : "./results/loss/{id}",
@@ -52,7 +52,7 @@ config = {
 
 run = wandb.init(
     project="lab",
-    name="seac_foraging_1e8",
+    name="seac_foraging_5e7",
     config=config,
 )
 
@@ -193,7 +193,7 @@ def main(
     all_infos = deque(maxlen=10)
     environment_steps = 0
     for j in range(1, num_updates + 1):
-        environment_steps += algorithm["num_steps"]
+        environment_steps += algorithm["num_steps"] * algorithm["num_envs"]
         for step in range(algorithm["num_steps"]):
             # Sample actions
             with torch.no_grad():
@@ -264,7 +264,6 @@ def main(
                 f"Last {len(all_infos)} training episodes mean reward {squashed['episode_reward'].sum():.3f}"
             )
             squashed["environment_steps"] = environment_steps
-            squashed["total_num_steps"] = total_num_steps
             wandb.log(squashed)
             all_infos.clear()
 
